@@ -10,7 +10,7 @@ import Foundation
 
 public class Game: Codable, Identifiable {
     
-    public let id: Int
+    public var id: Int
     public var players: [Player]
     public var rounds: [Round]
     public var roundCounts: [Round.Selection: Int]

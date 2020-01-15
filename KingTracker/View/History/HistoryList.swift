@@ -20,11 +20,14 @@ struct HistoryList: View {
                     .bold()
                     .foregroundColor(.black)
                 ScrollView {
-                    ForEach(model.games) { game in
-                        NavigationLink(destination: GameView(gameId: game.id)) {
+                    ForEach(model.games.reversed()) { game in
+                        Button(action: {
+                            self.setCurrentGame(game: game)
+                        }){
                             GameCell(gameId: game.id)
-                                .padding()
+                            .padding()
                         }
+                            .disabled(game.completed)
                     }
                 }
                 NavigationLink(destination: NewGameView()) {
@@ -39,6 +42,20 @@ struct HistoryList: View {
             .navigationBarTitle("")
             .navigationBarHidden(true)
         }
+    }
+    
+    private func setCurrentGame(game: Game) {
+        guard let currentGame = self.model.getCurrentGame() else {
+            // Should not be entered
+            print("No active game")
+            return
+        }
+        
+        let tempId = game.id
+        game.id = currentGame.id
+        currentGame.id = tempId
+        model.save(game)
+        model.save(currentGame)
     }
 }
 

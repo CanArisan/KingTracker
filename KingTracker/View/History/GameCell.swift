@@ -70,7 +70,14 @@ struct GameCell: View {
         }
         .padding()
         .foregroundColor(.black)
-        .background(RoundedRectangle(cornerRadius: 20).foregroundColor(game.completed ? Color("CompletedGame") : Color("UnfinishedGame")))
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .foregroundColor(
+                    game.id == model.games.last!.id ? Color("CurrentGame") : (
+                        game.completed ? Color("CompletedGame") : Color("UnfinishedGame")
+                    )
+                )
+        )
         .padding(.horizontal, 10)
     }
 }
