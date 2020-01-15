@@ -94,16 +94,12 @@ struct EditRoundView: View {
                     TextField("\(game.players[2].name)", text: $player3Takes).keyboardType(.numberPad)
                     TextField("\(game.players[3].name)", text: $player4Takes).keyboardType(.numberPad)
                 }
-                //
-                //                Section{
-                //                    saveButton
-                //                }
                 
                 Section{
+                    saveButton
                     deleteButton
                 }
             }
-            
             .onAppear{
                 self.updateStates()
                 self.isSaving = false
@@ -130,7 +126,9 @@ struct EditRoundView: View {
             }
             .modifier(ResignKeyboardOnDragGesture())
         }
-        .navigationBarItems(trailing: saveButton)
+    .navigationBarTitle("")
+    .navigationBarHidden(true)
+//        .navigationBarItems(trailing: saveButton)
     }
     
     private func getRoundTotalTakes() -> Int {
