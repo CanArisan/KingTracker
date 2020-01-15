@@ -14,20 +14,26 @@ struct HistoryList: View {
     var body: some View {
         NavigationView{
             VStack(alignment: .center, spacing: 10) {
-                    TitleBar()
-                    Text("Game History")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(.black)
-                    ScrollView {
-                        ForEach(model.games) { game in
-                            NavigationLink(destination: GameView(gameId: game.id)) {
-                                GameCell(gameId: game.id)
+                TitleBar()
+                Text("Game History")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundColor(.black)
+                ScrollView {
+                    ForEach(model.games) { game in
+                        NavigationLink(destination: GameView(gameId: game.id)) {
+                            GameCell(gameId: game.id)
                                 .padding()
-                            }
                         }
                     }
                 }
+                NavigationLink(destination: NewGameView()) {
+                    Text("Create a new game")
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 20).foregroundColor(.white))
+                        .padding(.vertical, 8)
+                }
+            }
             .padding(.top, 12)
             .background(Rectangle().foregroundColor(Color("Cuha")))
             .navigationBarTitle("")

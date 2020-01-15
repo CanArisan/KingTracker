@@ -16,6 +16,8 @@ struct NewGameView: View {
     @State var player3 = ""
     @State var player4 = ""
     
+    @State var presentPlayerSheet = false
+    
     private var saveButton: some View {
         Button(action: save) {
             Text("Save")
@@ -30,18 +32,28 @@ struct NewGameView: View {
                 }
                 if !self.model.players.isEmpty &&
                     (self.player1 == "" || self.player2 == "" || self.player3 == "" || self.player4 == "") {
-                    Section(header: Text("Choose existing player")) {
-                        Picker(
-                            "",
-                            selection: self.player1 == "" ? $player1 :
-                                (self.player2 == "" ? $player2 :
-                                    (self.player3 == "" ? $player3 : $player4))
-                        ) {
-                            ForEach(model.players.map({$0.name}), id: \.self) { player in
-                                Text(player)
+                    Section(header: Text("Existing players")) {
+                        Button("Choose existing player", action: {self.presentPlayerSheet = true})
+                            .sheet(isPresented: $presentPlayerSheet) {
+                                List(self.model.players.map({$0.name}), id: \.self) { name in
+                                    Button(
+                                        action: {
+                                            if self.player1 == "" {
+                                                self.player1 = name
+                                            } else if self.player2 == "" {
+                                                self.player2 = name
+                                            } else if self.player3 == "" {
+                                                self.player3 = name
+                                            } else {
+                                                self.player4 = name
+                                            }
+                                            self.presentPlayerSheet = false
+                                        }
+                                    ) {
+                                        Text(name)
+                                    }
+                                }
                             }
-                        }
-                        .pickerStyle(WheelPickerStyle())
                     }
                 }
                 Section(header: Text("Players")) {
