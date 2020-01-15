@@ -71,7 +71,7 @@ struct GameCell: View {
         .padding()
         .foregroundColor(.black)
         .background(RoundedRectangle(cornerRadius: 20).foregroundColor(game.completed ? Color("CompletedGame") : Color("UnfinishedGame")))
-        .padding()
+        .padding(.horizontal, 10)
     }
 }
 

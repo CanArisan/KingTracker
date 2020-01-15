@@ -10,6 +10,7 @@ import SwiftUI
 
 struct NewGameView: View {
     @EnvironmentObject var model: Model
+    @Environment(\.presentationMode) private var presentationMode
     
     @State var player1 = ""
     @State var player2 = ""
@@ -24,16 +25,25 @@ struct NewGameView: View {
         }
     }
     
+    private var cancelButton: some View {
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            Text("Cancel")
+                .foregroundColor(.red)
+        }
+    }
+    
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Game")) {
                     Text("Coming in a future update...")
                 }
-                if !self.model.players.isEmpty &&
-                    (self.player1 == "" || self.player2 == "" || self.player3 == "" || self.player4 == "") {
+                if self.player1 == "" || self.player2 == "" || self.player3 == "" || self.player4 == "" {
                     Section(header: Text("Existing players")) {
                         Button("Choose existing player", action: {self.presentPlayerSheet = true})
+                            .disabled(self.model.players.isEmpty)
                             .sheet(isPresented: $presentPlayerSheet) {
                                 List(self.model.players.map({$0.name}), id: \.self) { name in
                                     Button(
@@ -63,10 +73,13 @@ struct NewGameView: View {
                     TextField("Player 4", text: $player4)
                 }
                 saveButton
+                if model.hasUncompletedGame() {
+                    cancelButton
+                }
             }
         }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
+        .navigationBarTitle("New Game")
+        .navigationBarHidden(true)
     }
     
     private func save() {
@@ -104,6 +117,7 @@ struct NewGameView: View {
         }
         
         model.save(Game(id: model.nextGameId(), players: [player1, player2, player3, player4]))
+        self.presentationMode.wrappedValue.dismiss()
     }
 }
 
