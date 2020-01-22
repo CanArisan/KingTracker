@@ -27,7 +27,6 @@ struct HistoryList: View {
                             GameCell(gameId: game.id)
                             .padding()
                         }
-                            .disabled(game.completed)
                     }
                 }
                 NavigationLink(destination: NewGameView()) {

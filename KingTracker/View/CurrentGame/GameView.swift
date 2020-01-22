@@ -54,19 +54,29 @@ struct GameView: View {
                 }
                 
                 if self.game.completed {
-                    HStack(alignment: .center, spacing: 10) {
-                        VStack(alignment: .leading, spacing: 5) {
+                    HStack(alignment: .center, spacing: 0) {
+                        VStack(alignment: .leading, spacing: 0) {
                             Text("Winners:")
                                 .font(.title)
-                            ForEach(game.players) { player in
-                                if player.pts >= 0 {
-                                    Text("\(player.name) \(player.pts)")
-                                }
+                                .padding(.bottom, 5)
+                            ForEach(game.players
+                                .sorted(by: {$0.pts > $1.pts})
+                                .filter{ $0.pts >= 0 }
+                            ) { player in
+                                Text("\(player.name)")
+                                    .padding([.bottom, .leading], 7)
                             }
                         }
+                        .padding(.horizontal, 15)
+                        Spacer()
                         NavigationLink(destination: NewGameView()) {
-                            Text("Create a new game")
+                            Text(" Create a new game ")
+                                .padding()
+                                .foregroundColor(.black)
+                                .background(RoundedRectangle(cornerRadius: 15)
+                                    .foregroundColor(Color("CompletedGame")))
                         }
+                        .padding(.trailing, 25)
                     }
                 }
             }

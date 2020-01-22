@@ -73,8 +73,8 @@ struct GameCell: View {
         .background(
             RoundedRectangle(cornerRadius: 20)
                 .foregroundColor(
-                    game.id == model.games.last!.id ? Color("CurrentGame") : (
-                        game.completed ? Color("CompletedGame") : Color("UnfinishedGame")
+                    game.completed ? Color("CompletedGame") : (
+                        game.id == model.games.last!.id ? Color("CurrentGame") : Color("UnfinishedGame")
                     )
                 )
         )

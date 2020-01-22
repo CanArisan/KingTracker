@@ -73,7 +73,7 @@ public class Model {
     }
     
     public func getCurrentGame() -> Game? {
-        return self.games.last(where: {!$0.completed})
+        return self.games.last
     }
 }
 
