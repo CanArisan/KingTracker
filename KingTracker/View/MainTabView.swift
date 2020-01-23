@@ -13,10 +13,18 @@ struct MainTabView: View {
     
     var body: some View {
         TabView {
-            GameView(gameId: model.getCurrentGame()!.id)
-                .tabItem {
-                    Image(systemName: "square.and.pencil")
-                    Text("Current Game")
+            if model.games.isEmpty {
+                NewGameView()
+                    .tabItem {
+                        Image(systemName: "square.and.pencil")
+                        Text("Current Game")
+                }
+            } else {
+                GameView(gameId: model.getCurrentGame()!.id)
+                    .tabItem {
+                        Image(systemName: "square.and.pencil")
+                        Text("Current Game")
+                }
             }
             HistoryList()
                 .tabItem {
